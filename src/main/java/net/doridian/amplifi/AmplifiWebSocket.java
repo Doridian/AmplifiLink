@@ -14,6 +14,8 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 
 public class AmplifiWebSocket extends WebSocketClient {
+    public static boolean MESSAGE_DEBUG = false;
+
     public interface IResponder {
         void gotResponse(String iface, String method, JsonObject payload);
     }
@@ -84,7 +86,9 @@ public class AmplifiWebSocket extends WebSocketClient {
     }
 
     public void onMessage(String s) {
-        System.out.println(s);
+        if (MESSAGE_DEBUG) {
+            System.out.println(s);
+        }
 
         Gson gson = new Gson();
         Type packetType = new TypeToken<PacketEncap<JsonObject>>() { }.getType();
