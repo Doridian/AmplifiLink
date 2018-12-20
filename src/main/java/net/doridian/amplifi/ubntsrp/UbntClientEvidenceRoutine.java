@@ -17,13 +17,13 @@ public class UbntClientEvidenceRoutine implements ClientEvidenceRoutine {
         for (int i = 0; i < hashedXor.length; i++) {
             hashedXor[i] = (byte)(hashedN[i] ^ hashedG[i]);
         }
-        byte[] K = digest.digest(BigIntegerUtils.bigIntegerToBytes(ctx.S));
+        byte[] hashedS = digest.digest(BigIntegerUtils.bigIntegerToBytes(ctx.S));
         digest.update(hashedXor);
         digest.update(hashedUsername);
         digest.update(BigIntegerUtils.bigIntegerToBytes(ctx.s));
         digest.update(BigIntegerUtils.bigIntegerToBytes(ctx.A));
         digest.update(BigIntegerUtils.bigIntegerToBytes(ctx.B));
-        digest.update(K);
+        digest.update(hashedS);
         return new BigInteger(1, digest.digest());
     }
 }

@@ -38,6 +38,7 @@ public class WebSocket extends WebSocketClient {
 
     private class CommandSender implements IResponder {
         private JsonObject jsonObject = null;
+        private boolean gotReply = false;
         private Thread waitThread;
 
         CommandSender(String iface, String method, Object payload) {
@@ -50,7 +51,7 @@ public class WebSocket extends WebSocketClient {
                 throw new RuntimeException("Wrong thread");
             }
 
-            while (jsonObject == null) {
+            while (!gotReply) {
                 synchronized (waitThread) {
                     waitThread.wait(5000);
                 }
@@ -62,6 +63,7 @@ public class WebSocket extends WebSocketClient {
         @Override
         public void gotResponse(String iface, String method, JsonObject payload) {
             jsonObject = payload;
+            gotReply = true;
             synchronized (waitThread) {
                 waitThread.notify();
             }

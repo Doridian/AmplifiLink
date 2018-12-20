@@ -15,7 +15,9 @@ public class PacketEncap<T> {
         PacketEncap res = new PacketEncap<P>();
         res.iface = iface;
         res.method = method;
-        res.payload = payload;
+        if (payload.value != null || payload.msgpack != null) {
+            res.payload = payload;
+        }
         res.type = "call";
         res.seqId = ++lastSeqId;
         return res;
