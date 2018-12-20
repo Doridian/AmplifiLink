@@ -15,8 +15,8 @@ import org.bouncycastle.util.encoders.Base64;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
 
-public class AmplifiWebSocketConnector {
-    public AmplifiWebSocketConnector(String ip, String username, String password) {
+public class Authenticator {
+    public Authenticator(String ip, String username, String password) {
         this.ip = ip;
         this.username = username;
         this.password = password;
@@ -29,11 +29,11 @@ public class AmplifiWebSocketConnector {
     private String username;
     private String password;
     private SRP6ClientSession srp6ClientSession;
-    private AmplifiWebSocket aws;
+    private WebSocket aws;
 
-    public AmplifiWebSocket connect() throws InterruptedException, URISyntaxException {
+    public WebSocket connect() throws InterruptedException, URISyntaxException {
         JsonObject payload;
-        aws = new AmplifiWebSocket(ip);
+        aws = new WebSocket(ip);
         aws.connectBlocking();
 
         PacketAuthUser packetAuthUser = new PacketAuthUser();

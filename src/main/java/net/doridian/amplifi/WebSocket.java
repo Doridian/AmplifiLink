@@ -13,7 +13,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 
-public class AmplifiWebSocket extends WebSocketClient {
+public class WebSocket extends WebSocketClient {
     public static boolean MESSAGE_DEBUG = false;
 
     public interface IResponder {
@@ -22,7 +22,7 @@ public class AmplifiWebSocket extends WebSocketClient {
 
     private final HashMap<Integer, IResponder> responders = new HashMap<>();
 
-    public AmplifiWebSocket(String ip) throws URISyntaxException {
+    public WebSocket(String ip) throws URISyntaxException {
         super(new URI("wss://" + ip + ":9016/"));
         this.setMySocket();
     }
