@@ -36,7 +36,7 @@ Band:
 2. 5GHz
 
 Device info:
-1. N/A
+1. 
 2. Mode
     1. A
     2. B
@@ -47,4 +47,15 @@ Device info:
 4. Inactive
 5. RX bytes
 6. TX bytes
+7. 
+8. 
+9. 
+10.
+11.
+12.
+13.
+14.
+15.
+16.
+17.
 18. Device name
