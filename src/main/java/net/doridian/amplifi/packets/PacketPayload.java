@@ -9,8 +9,10 @@ public class PacketPayload<T> {
     }
 
     public PacketPayload(T payload) {
-        this.value = payload;
+        if (payload instanceof String) {
+            this.msgpack = (String)payload;
+        } else {
+            this.value = payload;
+        }
     }
-
-
 }
