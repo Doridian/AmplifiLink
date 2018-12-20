@@ -38,11 +38,11 @@ Band:
 Device info:
 1. N/A
 2. Mode
-      1. A
-      2. B
-      3. G
-      4. N
-      5. AC
+    1. A
+    2. B
+    3. G
+    4. N
+    5. AC
 3. Signal Quality (0 - 100)
 4. Inactive
 5. RX bytes
