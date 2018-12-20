@@ -1,5 +1,5 @@
 ```
-{"iface":"com.ubnt.UnifiHome.ClusterNode","method":"GetWifiClientInfo","payload":{"msgpack":"kpMDBAXA"},"type":"call","seqId":3}
+{"iface":"com.ubnt.UnifiHome.ClusterNode","method":"GetWifiClientInfo","payload":{"msgpack":"ksDA"},"type":"call","seqId":3}
 {"payload": {"msgpack": "[SNIP]"}, "seqId": 3, "type": "response"}
 
 {
