@@ -11,7 +11,7 @@ import java.math.BigInteger;
 import java.security.cert.X509Certificate;
 
 public class Utils {
-    public static SSLSocketFactory getAllTrustFactory() {
+    static SSLSocketFactory getAllTrustFactory() {
         try {
             SSLContext sslContext = SSLContext.getInstance("TLS");
 
@@ -35,7 +35,7 @@ public class Utils {
         }
     }
 
-    public static BigInteger decodeBase64BigInt(JsonObject payload, String key) {
+    static BigInteger decodeBase64BigInt(JsonObject payload, String key) {
         return new BigInteger(1, Base64.decode(payload.getAsJsonPrimitive(key).getAsString()));
     }
 }

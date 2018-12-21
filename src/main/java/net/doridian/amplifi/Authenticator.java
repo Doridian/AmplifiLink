@@ -38,7 +38,7 @@ public class Authenticator {
 
         PacketAuthUser packetAuthUser = new PacketAuthUser();
         packetAuthUser.user = username;
-        payload = aws.sendCommandSync(AUTH_IFACE, AUTH_METHOD, packetAuthUser);
+        payload = aws.sendCommandJSONSync(AUTH_IFACE, AUTH_METHOD, packetAuthUser);
 
         BigInteger B = Utils.decodeBase64BigInt(payload, "B");
         BigInteger s = Utils.decodeBase64BigInt(payload, "s");
@@ -62,7 +62,7 @@ public class Authenticator {
             throw new RuntimeException(e);
         }
 
-        payload = aws.sendCommandSync(AUTH_IFACE, AUTH_METHOD, packetAuthStep1);
+        payload = aws.sendCommandJSONSync(AUTH_IFACE, AUTH_METHOD, packetAuthStep1);
 
         BigInteger HAMK = Utils.decodeBase64BigInt(payload, "HAMK");
         try {

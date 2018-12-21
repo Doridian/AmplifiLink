@@ -17,7 +17,7 @@ public class WebSocket extends WebSocketClient {
     public static boolean MESSAGE_DEBUG = false;
 
     public interface IResponder {
-        void gotResponse(String iface, String method, JsonObject payload);
+        void gotResponse(String iface, String method, JsonObject payload, String msgpack);
     }
 
     private final HashMap<Integer, IResponder> responders = new HashMap<>();
@@ -38,6 +38,7 @@ public class WebSocket extends WebSocketClient {
 
     private class CommandSender implements IResponder {
         private JsonObject jsonObject = null;
+        private String msgpackRes = null;
         private boolean gotReply = false;
         private Thread waitThread;
 
@@ -46,7 +47,7 @@ public class WebSocket extends WebSocketClient {
             sendCommand(iface, method, payload, this);
         }
 
-        private JsonObject getResponseBlocking() throws InterruptedException {
+        private void waitForResponse() throws InterruptedException {
             if (Thread.currentThread() != waitThread) {
                 throw new RuntimeException("Wrong thread");
             }
@@ -56,13 +57,12 @@ public class WebSocket extends WebSocketClient {
                     waitThread.wait(5000);
                 }
             }
-
-            return jsonObject;
         }
 
         @Override
-        public void gotResponse(String iface, String method, JsonObject payload) {
+        public void gotResponse(String iface, String method, JsonObject payload, String msgpack) {
             jsonObject = payload;
+            msgpackRes = msgpack;
             gotReply = true;
             synchronized (waitThread) {
                 waitThread.notify();
@@ -70,9 +70,21 @@ public class WebSocket extends WebSocketClient {
         }
     }
 
-    public JsonObject sendCommandSync(String iface, String method, Object payload) throws InterruptedException {
+    public JsonObject sendCommandJSONSync(String iface, String method, Object payload) throws InterruptedException {
         CommandSender sender = new CommandSender(iface, method, payload);
-        return sender.getResponseBlocking();
+        sender.waitForResponse();
+        return sender.jsonObject;
+    }
+
+    public void sendCommandSync(String iface, String method, Object payload) throws InterruptedException {
+        CommandSender sender = new CommandSender(iface, method, payload);
+        sender.waitForResponse();
+    }
+
+    public String sendCommandMsgpackSync(String iface, String method, Object payload) throws InterruptedException {
+        CommandSender sender = new CommandSender(iface, method, payload);
+        sender.waitForResponse();
+        return sender.msgpackRes;
     }
 
     private void setMySocket() {
@@ -106,7 +118,7 @@ public class WebSocket extends WebSocketClient {
         }
         if (responder != null) {
             try {
-                responder.gotResponse(packet.iface, packet.method, packet.payload.value);
+                responder.gotResponse(packet.iface, packet.method, packet.payload.value, packet.payload.msgpack);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
